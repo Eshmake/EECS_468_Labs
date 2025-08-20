@@ -1,0 +1,98 @@
+<!--
+Name: Sina Asheghalishahi
+Date Created: 03/03/2025
+Program: EECS 468 Assignment 04
+Description: HTML/JS program produces a webpage that displays a UI with tabbed panels.
+Input: None
+Output: A browser window w/ containing a tabbed user-interface.
+Collaborators: NA
+Other Sources: w3schools.com
+-->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Asheghalishahi’s Go KU! Page</title>
+    </head>
+    <body>
+        <tab-panel>
+            <div data-tabname="Rock">Rock ...</div>
+            <div data-tabname="Chalk">Rock Chalk ...</div>
+            <div data-tabname="Jayhawk">Rock Chalk Jayhawk ...</div>
+            <div data-tabname="Go KU!">Rock Chalk Jayhawk - Go KU!</div>
+        </tab-panel>
+        <!--JS script defines function to converts tab-panel children into tabbed UI w/ buttons. 
+            Uses "Array.from," "element.style," "element.style.display," "instertBefore," and "appendChild" 
+            methods/attributes from w3schools.com
+        -->
+        <script>
+            //func. defined, which adds buttons and eventListeners to predefined tab elements in DOM to make tabbed UI
+            function asTabs(node) {
+                // Your code here.
+  
+                //var. set to array containing child nodes of node parameter
+                let childNodes = Array.from(node.children);
+
+                //var. set to newly created DOM element of 'div' type
+                let buttonSection = document.createElement('div');
+  
+                //for each element in childNodes array, a button and eventListener is created
+                childNodes.forEach((child) => {
+                    //var. set to newly created element of 'button' type
+                    let button = document.createElement('button');
+    
+                    //text of button is set to value of 'data-tabname' of corresponding tab child
+                    button.textContent = child.getAttribute('data-tabname');
+    
+                    //color of button's text set to blue
+                    button.style.color = 'blue';
+    
+                    /* eventListener defined for resp. button of type 'click', which hides all nodes exc. clicked one,
+                       and sets text color of all child nodes to blue exc. that of clicked one.
+                    */
+                    button.addEventListener('click', () => {
+                        //all child notes set to hidden display
+                        childNodes[0].style.display = 'none';
+                        childNodes[1].style.display = 'none';
+                        childNodes[2].style.display = 'none';
+                        childNodes[3].style.display = 'none'; 
+
+                        //clicked child made visible
+                        child.style.display = 'block';
+
+                        //all buttons (in buttonSection container) set to blue text
+                        buttonSection.children[0].style.color = 'blue';
+                        buttonSection.children[1].style.color = 'blue';
+                        buttonSection.children[2].style.color = 'blue';
+                        buttonSection.children[3].style.color = 'blue';
+
+                        //clicked button set to red text
+                        button.style.color = 'red';
+                    });
+    
+                    //current button added to buttonSection container
+                    buttonSection.appendChild(button);
+                });
+
+                //buttonSection container is placed before the first element in the childNodes array (i.e. above tab nodes in "tab-panel field")
+                node.insertBefore(buttonSection, childNodes[0]);
+
+                //1st button is set to red text by default
+                buttonSection.childNodes[0].style.color = 'red';
+
+                //1st tab node is made visible by default
+                childNodes[0].style.display = 'block';
+
+                //all other tab nodes hidden by default
+                childNodes[1].style.display = "none";
+                childNodes[2].style.display = "none";
+                childNodes[3].style.display = "none";
+
+            }
+
+            //"tab-panel" node accessed via DOM and used as call value w/ asTabs function
+            asTabs(document.querySelector("tab-panel"));
+        </script>
+    </body>
+</html>

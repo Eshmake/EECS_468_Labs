@@ -1,0 +1,148 @@
+<!--
+Name: Sina Asheghalishahi
+Date Created: 02/10/2025
+Program: EECS 468 Assignment 02
+Description: HTML/JS program produces a webpage with 3 JS exercises that output displays
+             made by looping constructs.
+Input: None
+Output: A browser window w/ 3 JS scripting exercises.
+Collaborators: NA
+Other Sources: w3schools.com
+-->
+
+<!--doctype specified as html program-->
+<!DOCTYPE html>
+<html>
+    <!--header section declares utf-8 encoding and sets tab title to "Assignment 2"-->
+    <head>
+        <meta charset="UTF-8">
+        <title>Assignment 2</title>
+    </head>
+    <!--body section containing html code and JS scripts for all 3 exercises-->
+    <body>
+        <!--header for 1st exercise-->
+       <h1>Exer. 2.1: Looping a Triangle</h1>
+       <!--empty para. declared for display-->
+       <p id="triangle"></p>
+       <!--JS script declared, which displays a 10-step triangle of x's; code by me-->
+       <script>
+            // func. defined, which outputs a string containing "x" repeated a given # of times
+            function sequence(num){
+                // string var. declared
+                let string = "";
+                // for-loop appends "x" to string var. an increasing # of times from 0 to num
+                for(let i = 0; i < num; i++){
+                    string += "x"
+                }
+                // string var returned
+                return string;
+            }
+
+            // display para. accessed via respective ID value
+            var elem = document.getElementById("triangle");
+
+            // display string declared
+            var display = "";
+            /* for-loop iterates 10 times, and appends the result of the seq. func. invoked w/ the current iteration value,
+               and a line-break to the display var.
+            */
+            for(let i = 1; i <= 10; i++){
+                display += (sequence(i) + "<br>");
+            }
+
+            // content of declared para. is set to display var. 
+            elem.innerHTML = display;
+       </script>
+
+       <!--header for 2nd exercise-->
+       <h1>Exer. 2.2: FizzBuzz</h1>
+       <!--empty para. declared for display-->
+       <p id="numbers"></p>
+       <!--JS scipt declared, which displays all numbers bet. 1 and 100, exc. those divisble by 4, 7, and 4 and 7,
+       for which speacial messages are substituted; code by me-->
+       <script>
+            // display string declared
+            var display = "";
+            // for-loop iterates from 1 to 100, and prints either the curr. #, or a special message
+            for(let i = 1; i <= 100; i++){
+                // if the current # is divisible by both 4 and 7, a unique message is appended to display
+                if((i % 4 == 0) && (i % 7 == 0)){
+                    display += "Divisible by both 4 and 7<br>";
+                }
+                // else if the current # is divisible by only 4, a unique message is appended to display
+                else if (i % 4 == 0){
+                    display += "Divisible by 4<br>";
+                }
+                // if the current # is divisible by only 7, a unique message is appended to display
+                else if (i % 7 == 0){
+                    display += "Divisible by 7, but not 4<br>";
+                }
+                // else, the # itself is appended to display
+                else{
+                    display += `${i}<br>`;
+                }
+            }
+            
+            // display para. accessed via respective ID value
+            var elem = document.getElementById("numbers");
+
+            // content of declared para. is set to display var. 
+            elem.innerHTML = display;
+       </script>
+
+        <!--header for 3rd exercise-->
+       <h1>Exer. 2.3: n-by-n Grid</h1>
+       <!--empty para. declared for display-->
+       <p id="grid"></p>
+            <!--JS script declared, which displays an n-by-n grid of *'s and spaces based on 
+            a predetermined size; cody by me exc. for repeat method, which is from w3schools.com-->
+            <script>
+                // size var. initialized to 8
+                var size = 8;
+                // display string declared
+                var display = "";
+
+                //display var. appended with size as title
+                display += "size = 8<br><br>"
+                // for-loop iterares # of times equal to size
+                for(let i = 0; i < size; i++){
+                    /* during each iteration, if the curr. iteration number is even, then display var. is appended
+                    w/ a space first (via non-breaking space character) and then an "*" followed by a break-line char.,
+                    and if odd, then vice versa.
+                    */
+                    if(i % 2 == 0){
+                        // display appended w/ a space and "*" repeated # of times equal to size/2, and then a break-line char.
+                        display += ("&nbsp*".repeat(size/2) + "<br>");  // string "repeat" func. obtained from w3schools.com
+                    }
+                    else{
+                        // display appended w/ an "*" and a space repeated # of times equal to size/2, and then a break-line char.
+                        display += ("*&nbsp".repeat(size/2) + "<br>");
+                    }
+                }
+
+                // display appended with break-line char.
+                display += "<br>"
+
+                // size changed to 14
+                size = 14;
+
+                //display var. appended with new size as title
+                display += "size = 14<br><br>"
+                // for-loop repeats grid display algorithm for new size
+                for(let i = 0; i < size; i++){
+                    if(i % 2 == 0){
+                        display += ("&nbsp*".repeat(size/2) + "<br>");
+                    }
+                    else{
+                        display += ("*&nbsp".repeat(size/2) + "<br>");
+                    }
+                }
+
+                // display para. accessed via respective ID value
+                var elem = document.getElementById("grid");
+
+                // content of declared para. is set to display var. 
+                elem.innerHTML = display;
+            </script>
+    </body>
+</html>

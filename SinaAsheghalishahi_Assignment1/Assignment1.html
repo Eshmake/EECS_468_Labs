@@ -1,0 +1,43 @@
+<!--
+Name: Sina Asheghalishahi
+Date Created: 02/03/2025
+Program: EECS 468 Assignment 01
+Description: HTML/JS program produces a webpage with 2 buttons producing
+             different "Hello World!" examples.
+Input: None
+Output: A browser window w/ 2 "Hello World!" test buttons.
+Collaborators: NA
+Other Sources: w3schools.com
+-->
+
+<!--doctype specified as html program-->
+<!DOCTYPE html>
+<html>
+    <!--header section declares utf-8 encoding and sets tab title to "Hello World!"; code by me-->
+    <head>
+        <meta charset="UTF-8">
+        <title>Hello World!</title>
+    </head>
+    <!--body section contains 2 test buttons and their JS scripts; code by me exc. for break tag (obtained from w3schools.com)-->
+    <body>
+        <!--1st button defined, which invokes JS func. to open dialog box upon interaction-->
+        <button onclick="dialogBox()">Test 1 for Hello World!</button>
+        <!--JS script defines func. to invoke dialog box via alert method w/ given pop-up text-->
+        <script>
+            function dialogBox(){
+                alert("Hello World!");
+            }
+        </script>
+        <!--empty para. defined for 2nd button-->
+        <p id="para1"></p>
+        <!--2nd button defined, which invokes JS func. to set defined paragraph to given text upon interaction-->
+        <button type="button" onclick="addPara()">Test 2 for Hello World!</button>
+        <!--JS script defines func. to retrieve paragraph element by its ID, and then set its contents to the given string-->
+        <script>
+            function addPara(){
+                var elem = document.getElementById("para1");
+                elem.innerHTML = "Hello<br>World!";        //break tag separates string into 2 lines; obtained from w3schools.com
+            }
+        </script>
+    </body>
+</html>

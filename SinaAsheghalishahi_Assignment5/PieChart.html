@@ -1,0 +1,144 @@
+<!--
+Name: Sina Asheghalishahi
+Date Created: 03/24/2025
+Program: EECS 468 Assignment 05
+Description: HTML/JS program produces a webpage that displays 2 pie charts w/ given datasets.
+Input: None
+Output: A browser window w/ containing 2 pie charts
+Collaborators: NA
+Other Sources: NA
+-->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Assignment 5</title>
+    </head>
+    <body>
+        <canvas width="1000" height="1000"></canvas>
+        <!--JS Script displays 2 pie charts in a 2D canvas, each depicting a separate dataset-->
+        <script>
+
+            //first dataset declared as array of survey objects
+            const results1 = [
+            {name: "Very Happy", count: 63, color: "lightblue"},
+            {name: "Happy", count: 104, color: "lightgreen"},
+            {name: "Neutral", count: 87, color: "pink"},
+            {name: "Unhappy", count: 36, color: "orange"},
+            {name: "Very unhappy", count: 26, color: "silver"},
+            {name: "No comment", count: 18, color: "lightyellow"}
+            ];
+
+            //second dataset declared as array of survey objects
+            const results2 = [
+            {name: "Satisfied", count: 213, color: "lightblue"},
+            {name: "Neutral", count: 927, color: "lightgreen"},
+            {name: "Unsatisfied", count: 463, color: "pink"},
+            {name: "No comment", count: 256, color: "silver"}
+            ];
+
+            //variable is set to 2D canvas, obtained from DOM via query
+            let cx = document.querySelector("canvas").getContext("2d");
+
+            //reduce method used on each data array to obtain accumulated sum of customers for each
+            let total1 = results1.reduce((sum, {count}) => sum + count, 0);
+            let total2 = results2.reduce((sum, {count}) => sum + count, 0);
+
+            //canvas text font size, style, color, and vertical orientation defined
+            cx.font = "20px Arial";  
+            cx.fillStyle = "black"; 
+            cx.textBaseline = "middle";
+
+            //2 pie chart titles displayed
+            cx.fillText("Data Set 1", 150, 50);
+            cx.fillText("Data Set 2", 460, 50);
+
+            //font resized
+            cx.font = "10px Arial";
+
+            //current angle set to top of chart
+            let currentAngle = -0.5 * Math.PI;
+
+            //dimensions for 1st and 2nd charts defined
+            let x1 = 200, y1 = 200;
+            let x2 = 500, y2 = 200;
+
+            //for-loop iterates thru each object in 1st dataset, and draws resp. pie chart
+            for (let result of results1) {
+                //the angle of current arc is made proportional to its corresponding # of customers
+                let sliceAngle = (result.count / total1) * 2 * Math.PI;
+
+                //display path is started
+                cx.beginPath();
+
+                // center=200,200, radius=100
+                // arc is drawn from current angle, clockwise by slice's angle, based on given center pt.
+                cx.arc(x1, y1, 100, currentAngle, currentAngle + sliceAngle);
+
+                //current angle is incremented by the slice's angle
+                currentAngle += sliceAngle;
+
+                //line is drawn to center pt.
+                cx.lineTo(x1, y1);
+
+                //arc is filled with corresponding color of result object
+                cx.fillStyle = result.color;
+                cx.fill();
+
+                //label angle is set to midpoint of current arc
+                let labelAng = currentAngle - sliceAngle / 2;
+
+                /* x and y dimensions of label are obtained by finding adj. and opp. values of label angle via a hypotenuse of 120,
+                   and are offset by given values, resp. */
+                let label_x = x1-20 + Math.cos(labelAng) * 120;
+                let label_y = y1 + Math.sin(labelAng) * 120;
+
+                //Draw label next to current pie chart arc
+                cx.fillStyle = "black";
+                cx.fillText(result.name, label_x, label_y);
+
+                
+            }
+
+            //current angle reset to top of chart
+            currentAngle = -0.5 * Math.PI;
+
+            //for-loop iterates thru each object in 2nd dataset, and draws resp. pie chart
+            for (let result of results2) {
+                //the angle of current arc is made proportional to its corresponding # of customers
+                let sliceAngle = (result.count / total2) * 2 * Math.PI;
+
+                //display path is started
+                cx.beginPath();
+
+                // center=500,200, radius=100
+                // arc is drawn from current angle, clockwise by slice's angle, based on given center pt.
+                cx.arc(x2, y2, 100, currentAngle, currentAngle + sliceAngle);
+
+                //current angle is incremented by the slice's angle
+                currentAngle += sliceAngle;
+
+                //line is drawn to center pt.
+                cx.lineTo(x2, y2);
+
+                //arc is filled with corresponding color of result object
+                cx.fillStyle = result.color;
+                cx.fill();
+
+                 //label angle is set to midpoint of current arc
+                let labelAng = currentAngle - sliceAngle / 2;
+
+                /* x and y dimensions of label are obtained by finding adj. and opp. values of label angle via a hypotenuse of 120,
+                   and are offset by given values, resp. */
+                let label_x = x2-20 + Math.cos(labelAng) * 120;  
+                let label_y = y2 + Math.sin(labelAng) * 120;
+
+                //Draw label next to current pie chart arc
+                cx.fillStyle = "black";
+                cx.fillText(result.name, label_x, label_y);
+            }
+
+        </script>
+    </body>
+</html>

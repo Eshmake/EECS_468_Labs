@@ -1,0 +1,271 @@
+<!--
+Name: Sina Asheghalishahi
+Date Created: 02/17/2025
+Program: EECS 468 Assignment 03
+Description: HTML/JS program produces a webpage that defines a JS Group class
+             with Set-like behaviour, and displays example behaviour of the class
+Input: None
+Output: A browser window w/ JS scripts containing Group class and its use case examples.
+Collaborators: NA
+Other Sources: NA
+-->
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Assignment 3</title>
+    </head>
+    <body>
+        <script>
+            //Group class defined, which acts like Set class
+            class Group{
+                //constructor defined, which creates an empty Group object, and declares its array attribute
+                constructor(){
+                    //array attribute of object declared
+                    this.values = [];
+                }
+
+                //has method defined, which returns Boolean based on whether given value is already in this Group obj.
+                has(val){
+                    //for-loop accesses all entries of values array
+                    for(let entry of this.values){
+                        //if-statement returns true if current entry is equal to given val
+                        if(entry == val){
+                            return true;
+                        }
+                    }
+                    //if val is not found, false is returned
+                    return false;
+                }
+
+                //add method defined, which adds given val to values array if it does not already contain it, and the returns this obj.
+                add(val){
+                    //if-statement determines whether given val is in array already
+                    if(!this.has(val)){
+                        //if val not in array, then it is added to it via push method
+                        this.values.push(val);
+                    }
+                    //this obj. is returned
+                    return this;
+                }   
+
+                //delete method defined, which removes a given val from values array if it is found within it, and then returns this obj.
+                delete(val){
+                    //if-statement checks whether values array contains given val
+                    if(this.has(val)){
+                        /*if val is in array, then array is set equal to new array returned from filter method invoked on
+                          current array w/ func. that filters out val.
+                        */
+                        this.values = this.values.filter(i=>i!=val);
+                    }
+                    //this obj. is returned
+                    return this;
+                }
+
+                //union method defined, which returns set union of this obj. and other obj.
+                union(other){
+                    //new Group obj. defined
+                    var union_group = new Group();
+
+                    //for-loop iterates through all entries in values of this obj.
+                    for(let entry of this.values){
+                        //each entry is uniquely added (w/o repetition) to new Group obj.
+                        union_group.add(entry);
+                    }
+
+                    //for-loop iterates through all entries in values of other obj.
+                    for(let entry of other.values){
+                        //each entry is uniquely added to new Group obj.
+                        union_group.add(entry);
+                    }
+
+                    //new obj. is returned
+                    return union_group;
+                }
+
+                //intersection method defined, which returns set intersection of this obj. and other obj.
+                intersection(other){
+                    //new Group obj. defined
+                    var inter_group = new Group();
+
+                    //for-loop iterates through all entries in values of this obj.
+                    for(let entry of this.values){
+                        //if-statement determines whether other obj. contains curr. entry of this obj.
+                        if(other.has(entry)){
+                            //if curr. entry is found in both obj., then it is added to new obj.
+                            inter_group.add(entry);
+                        }
+                    }
+
+                    //new obj. is returned
+                    return inter_group;
+                }
+
+                //diff. method defined, which returns set difference of this obj. and other obj.
+                difference(other){
+                    //new Group obj. defined
+                    var diff_group = new Group();
+
+                    //for-loop iterates through all entries in values of this obj.
+                    for(let entry of this.values){
+                        //if-statement determines whether other obj. contains curr. entry of this obj.
+                        if(!other.has(entry)){
+                            //if curr. entry of this obj. is not in other obj., then it is added to new obj.
+                            diff_group.add(entry);
+                        }
+                    }
+                    
+                    //new obj. is returned
+                    return diff_group;
+                }
+
+                //toString method overriden
+                toString(){
+                    //string container var declared
+                    var string = "";
+
+                    //for-loop iterates through all values of this obj.
+                    for(let i = 0; i < this.values.length; i++){
+                        //string is appended with each value
+                        string += `${this.values[i]}`
+            
+                        //if-statement adds formatting punctuation for each iteration other than last
+                        if(i < this.values.length-1){
+                            //formatting appended to string var
+                            string += ", ";
+                        }
+                    }
+
+                    //string var returned
+                    return string;
+                }
+            }
+        </script>
+
+        <h2>Outputs</h2>
+        <h3>Contents of group1</h3>
+        <p id="output1"></p>
+        <h3>Contents of group2</h3>
+        <p id="output2"></p>
+        <h3>Results of group1.has(5)</h3>
+        <p id="output3"></p>
+        <h3>Results of group2.has(3)</h3>
+        <p id="output4"></p>
+        <h3>Results of group1.union(group2)</h3>
+        <p id="output5"></p>
+        <h3>Results of group1.intersection(group2)</h3>
+        <p id="output6"></p>
+        <h3>Results of group1.difference(group2)</h3>
+        <p id="output7"></p>
+        <h3>Results of group1.delete(1)</h3>
+        <p id="output8"></p>
+        <h3>Results of group2.delete(1)</h3>
+        <p id="output9"></p>
+
+        <script>
+            //2 group obj. instantiated
+            let group1 = new Group();
+            let group2 = new Group();
+            //given values added to resp. objects
+            group1.add(1);
+            group1.add(2);
+            group1.add(3);
+            group2.add(2);
+            group2.add(3);
+            group2.add(5);
+            group2.add(2);
+
+
+            //output var defined and set to group1 obj.
+            var output = group1;
+
+            // display para. accessed via respective ID value
+            var elem = document.getElementById("output1");
+
+            // content of para. is set to current output 
+            elem.innerHTML = output;
+
+
+            //output var set to group2 obj.
+            output = group2;
+
+            // display para. accessed via respective ID value
+            var elem = document.getElementById("output2");
+
+            // content of declared para. is set to current output 
+            elem.innerHTML = output;
+
+
+            //output var set to result of group1.has(5).
+            output = group1.has(5);
+
+            // display para. accessed via respective ID value
+            var elem = document.getElementById("output3");
+
+            // content of declared para. is set to current output 
+            elem.innerHTML = output;
+
+
+            //output var set to result of group2.has(3).
+            output = group2.has(3);
+
+            // display para. accessed via respective ID value
+            var elem = document.getElementById("output4");
+
+            // content of declared para. is set to current output 
+            elem.innerHTML = output;
+
+
+            //output var set to result of group1.union(group2).
+            output = group1.union(group2);
+
+            // display para. accessed via respective ID value
+            var elem = document.getElementById("output5");
+
+            // content of declared para. is set to current output 
+            elem.innerHTML = output;
+
+
+            //output var set to result of group1.intersection(group2).
+            output = group1.intersection(group2);
+
+            // display para. accessed via respective ID value
+            var elem = document.getElementById("output6");
+
+            // content of declared para. is set to current output 
+            elem.innerHTML = output;
+
+
+            //output var set to result of group1.difference(group2).
+            output = group1.difference(group2);
+
+            // display para. accessed via respective ID value
+            var elem = document.getElementById("output7");
+
+            // content of declared para. is set to current output 
+            elem.innerHTML = output;
+
+
+            //output var set to result of group1.delete(1).
+            output = group1.delete(1);
+
+            // display para. accessed via respective ID value
+            var elem = document.getElementById("output8");
+
+            // content of declared para. is set to current output 
+            elem.innerHTML = output;
+
+
+            //output var set to result of group2.delete(1).
+            output = group2.delete(1);
+
+            // display para. accessed via respective ID value
+            var elem = document.getElementById("output9");
+
+            // content of declared para. is set to current output 
+            elem.innerHTML = output;
+        </script>
+    </body>
+</html>
